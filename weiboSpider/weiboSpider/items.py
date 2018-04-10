@@ -42,3 +42,4 @@ class WeiboBlogItem(scrapy.Item):
     reposts_count = scrapy.Field()
     comments_count = scrapy.Field()
     attitudes_count = scrapy.Field()
+    origin_url = scrapy.Field()

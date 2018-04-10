@@ -51,6 +51,8 @@ class userdata(Base):
 	reposts_count = Column(String(255))
 	comments_count = Column(String(255))
 	attitudes_count = Column(String(255))
+	origin_url = Column(String(255))
+	insert_time = Column(DateTime)
 
 def insert_user_info(user_data):
 	flag = session.query(userinfo).filter(userinfo.user_id==user_data.user_id).all()
@@ -61,9 +63,9 @@ def insert_user_info(user_data):
 		session.commit()
 
 def insert_user_data(user_data):
-	flag = session.query(userdata).filter(userdata.itemid==user_data.itemid).all()
+	flag = session.query(userdata).filter(userdata.scheme==user_data.scheme).all()
 	if flag:
-		print '已存在'
+		print user_data.scheme,'已存在'
 	else:
 		session.add(user_data)
 		session.commit()

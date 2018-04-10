@@ -100,6 +100,7 @@ class WeiboBlog(scrapy.Spider):
                     item["attitudes_count"] = attitudes_count
                     item["user_id"] = user_id
                     item["screen_name"] = screen_name
+                    item["origin_url"] = response.url
 
                     now_time = datetime.date.today()
                     thrDay = now_time + datetime.timedelta(days=-3)
@@ -111,4 +112,4 @@ class WeiboBlog(scrapy.Spider):
             if flag:
                 url = get_url(uid, pageIndex + 1)
                 yield scrapy.Request(url, callback=self.parse, headers=headers, dont_filter=True,
-                                     meta={"uid": uid, "pageIndex": pageIndex})
+                                     meta={"uid": uid, "pageIndex": pageIndex + 1})

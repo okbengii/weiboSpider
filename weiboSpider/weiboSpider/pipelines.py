@@ -5,6 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from mysql_config import insert_user_info,insert_user_data,userinfo,userdata
+import datetime
 
 
 class WeibospiderPipeline(object):
@@ -22,9 +23,11 @@ class WeibospiderPipeline(object):
 class WeiboBlogPipeline(object):
 	def process_item(self, item, spider):
 
+		now = datetime.datetime.now()
 		userData = userdata(user_id=item["user_id"],screen_name=item["screen_name"],itemid=item["itemid"],
 							scheme=item["scheme"], created_at=item["created_at"], text=item["text"],
 							reposts_count=item["reposts_count"], comments_count=item["comments_count"], attitudes_count=item["attitudes_count"],
+							origin_url = item["origin_url"],insert_time=now
 							)
 		insert_user_data(userData)
 		return item
