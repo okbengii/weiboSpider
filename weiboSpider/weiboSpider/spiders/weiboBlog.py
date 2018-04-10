@@ -12,14 +12,14 @@ import re
 def parse_time(time_str):
     now_time = time.strptime(time_str, "%Y-%m-%d")
     y, m, d, h, mm, s = now_time[0:6]
-    update_time = datetime.datetime(y, m, d, h, mm, s)
+    update_time = datetime.date(y, m, d)
     return update_time
 
 import datetime
 import time
 def get_url(uid,pageIndex):
-	url = "https://m.weibo.cn/api/container/getIndex?uid=%s&featurecode=20000320&type=uid&value=%s&containerid=107603%s&page=%s" % (uid,uid,uid,pageIndex)
-	return url
+    url = "https://m.weibo.cn/api/container/getIndex?uid=%s&featurecode=20000320&type=uid&value=%s&containerid=107603%s&page=%s" % (uid,uid,uid,pageIndex)
+    return url
 
 headers = {
     "Host": "m.weibo.cn",
@@ -69,19 +69,19 @@ class WeiboBlog(scrapy.Spider):
 
                     pattern = "[0-9]*?-[0-9]*?-[0-9]*?"
                     if created_at.find(u"小时前") != -1:
-                        created_at = datetime.datetime.now()
+                        created_at = datetime.date.today()
                     elif created_at.find(u"昨天") != -1:
-                        now = datetime.datetime.now()
+                        now = datetime.date.today()
                         delta = datetime.timedelta(days=1)
                         created_at = now - delta
                     elif created_at.find(u"前天") != -1:
-                        now = datetime.datetime.now()
+                        now = datetime.date.today()
                         delta = datetime.timedelta(days=2)
                         created_at = now - delta
                     elif re.match(pattern, created_at):
                         created_at = parse_time(created_at)
                     elif created_at.find(u"分钟前") != -1:
-                        created_at = datetime.datetime.now()
+                        created_at = datetime.date.today()
                     else:
                         created_at = parse_time(str(datetime.datetime.now().year) + "-" + created_at)
                     text = highpoints.sub(u'??',re_h.sub('',message['mblog']['text']))
@@ -100,12 +100,13 @@ class WeiboBlog(scrapy.Spider):
                     item["attitudes_count"] = attitudes_count
                     item["user_id"] = user_id
                     item["screen_name"] = screen_name
-                    yield item
-                    now_time = datetime.datetime.now()
+
+                    now_time = datetime.date.today()
                     thrDay = now_time + datetime.timedelta(days=-3)
                     if thrDay > created_at:
                         flag = False
                         break
+                    yield item
         if "msg" not in json_data:
             if flag:
                 url = get_url(uid, pageIndex + 1)

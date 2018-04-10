@@ -14,13 +14,13 @@ BOT_NAME = 'weiboSpider'
 SPIDER_MODULES = ['weiboSpider.spiders']
 NEWSPIDER_MODULE = 'weiboSpider.spiders'
 
-DOWNLOAD_DELAY=3
+DOWNLOAD_DELAY=1
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'weiboSpider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-LOG_LEVEL="INFO"
+LOG_LEVEL="DEBUG"
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
