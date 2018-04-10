@@ -84,7 +84,7 @@ class WeiboBlog(scrapy.Spider):
                         created_at = datetime.datetime.now()
                     else:
                         created_at = parse_time(str(datetime.datetime.now().year) + "-" + created_at)
-                    text = re_h.sub('',message['mblog']['text'])
+                    text = highpoints.sub(u'??',re_h.sub('',message['mblog']['text']))
                     reposts_count = message['mblog']['reposts_count']
                     comments_count = message['mblog']['comments_count']
                     attitudes_count = message['mblog']['attitudes_count']
