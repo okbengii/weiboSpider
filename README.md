@@ -22,6 +22,9 @@ scrapyd
 	终止爬虫：
 		curl http://47.93.42.140:6800/cancel.json -d project=weiboSpider -d job=82f5e8f23c9e11e8b5de00163e0cb35d
 
+	查看爬虫任务:
+		curl http://47.93.42.140:6800/listjobs.json?project=weiboSpider
+		
 # 抓取用户微博爬虫
 	
 	weiboBlog
