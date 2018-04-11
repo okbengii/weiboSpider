@@ -41,9 +41,9 @@ class WeiboBlog(scrapy.Spider):
     }
     def start_requests(self):
         user_list = query_user_id()
-        for item in user_list:
-            url = get_url(item, 1)
-            yield scrapy.Request(url,callback=self.parse,headers=headers,dont_filter=True,meta={"uid":item,"pageIndex":1})
+        # for item in user_list:
+        url = get_url(2939773105, 1)
+        yield scrapy.Request(url,callback=self.parse,headers=headers,dont_filter=True,meta={"uid":2939773105,"pageIndex":1})
 
     def parse(self,response):
         logging.info("CRAWL URL:" + response.url)
@@ -110,7 +110,7 @@ class WeiboBlog(scrapy.Spider):
                         flag = False
                         break
                     yield item
-        if "msg" not in json_data:
+        if "msg" not in json.loads(response.body):
             if flag:
                 url = get_url(uid, pageIndex + 1)
                 yield scrapy.Request(url, callback=self.parse, headers=headers, dont_filter=True,
