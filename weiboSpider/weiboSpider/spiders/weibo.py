@@ -56,15 +56,15 @@ class WeiboSpider(scrapy.Spider):
                     follower_url = get_followers(user_id,1)
                     yield scrapy.Request(follower_url, callback=self.parse, headers=headers,
                                          dont_filter=True,meta={"uid":user_id},priority=0)
-        if 'cardlistInfo' in json_data:
-            next_page = int(json_data['cardlistInfo']['page'])
-            # 翻页
-            if "maxPage" in json_data:
-                maxPage = json_data['maxPage']
-                if next_page <= int(maxPage):
-                    follower_url = get_followers(uid, next_page)
-                    yield scrapy.Request(follower_url, callback=self.parse, headers=headers,
-                                         dont_filter=True,meta={"uid":uid},priority=1)
+            if 'cardlistInfo' in json_data:
+                next_page = int(json_data['cardlistInfo']['page'])
+                # 翻页
+                if "maxPage" in json_data:
+                    maxPage = json_data['maxPage']
+                    if next_page <= int(maxPage):
+                        follower_url = get_followers(uid, next_page)
+                        yield scrapy.Request(follower_url, callback=self.parse, headers=headers,
+                                             dont_filter=True,meta={"uid":uid},priority=1)
 
     def parse_user_content(self,response):
         logging.info("CRAWL URL:" + response.url)
