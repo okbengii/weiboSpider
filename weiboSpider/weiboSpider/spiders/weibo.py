@@ -6,7 +6,7 @@ from weiboSpider.items import WeibospiderItem
 import scrapy
 import json
 import re
-
+import logging
 
 headers = {
     "Host": "m.weibo.cn",
@@ -40,6 +40,7 @@ class WeiboSpider(scrapy.Spider):
     	yield scrapy.Request(first_url,callback=self.parse,headers=headers,dont_filter=True,meta={"uid":2286908003})
 
     def parse(self, response):
+        logging.info("CRAWL URL:" + response.url)
         uid = response.meta['uid']
         if 'data' in response.body:
             json_data = json.loads(response.body)['data']
@@ -66,6 +67,7 @@ class WeiboSpider(scrapy.Spider):
                                          dont_filter=True,meta={"uid":uid},priority=1)
 
     def parse_user_content(self,response):
+        logging.info("CRAWL URL:" + response.url)
         try:
             highpoints = re.compile(u'[\U00010000-\U0010ffff]')
         except re.error:

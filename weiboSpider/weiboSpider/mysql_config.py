@@ -7,7 +7,7 @@ from sqlalchemy import Column,String,create_engine, DateTime, Integer
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.mysql import LONGTEXT
-
+import logging
 
 engine = create_engine('mysql+mysqldb://root:1234@47.93.42.140:3306/weibodata?charset=utf8')
 DBSession = sessionmaker(bind=engine)
@@ -57,7 +57,7 @@ class userdata(Base):
 def insert_user_info(user_data):
 	flag = session.query(userinfo).filter(userinfo.user_id==user_data.user_id).all()
 	if flag:
-		print '已存在'
+		logging.info(user_data.screen_name + '  EXISTS')
 	else:
 		session.add(user_data)
 		session.commit()
@@ -65,7 +65,7 @@ def insert_user_info(user_data):
 def insert_user_data(user_data):
 	flag = session.query(userdata).filter(userdata.scheme==user_data.scheme).all()
 	if flag:
-		print user_data.scheme,'已存在'
+		logging.info(user_data.scheme+'  EXISTS')
 	else:
 		session.add(user_data)
 		session.commit()

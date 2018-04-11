@@ -7,7 +7,7 @@ from weiboSpider.mysql_config import userdata,query_user_id
 import scrapy
 import json
 import re
-
+import logging
 
 def parse_time(time_str):
     now_time = time.strptime(time_str, "%Y-%m-%d")
@@ -46,7 +46,7 @@ class WeiboBlog(scrapy.Spider):
             yield scrapy.Request(url,callback=self.parse,headers=headers,dont_filter=True,meta={"uid":item,"pageIndex":1})
 
     def parse(self,response):
-
+        logging.info("CRAWL URL:" + response.url)
         try:
             # python UCS-4 build的处理方式
             highpoints = re.compile(u'[\U00010000-\U0010ffff]')
@@ -81,6 +81,8 @@ class WeiboBlog(scrapy.Spider):
                     elif re.match(pattern, created_at):
                         created_at = parse_time(created_at)
                     elif created_at.find(u"分钟前") != -1:
+                        created_at = datetime.date.today()
+                    elif created_at.find(u"刚刚") != -1:
                         created_at = datetime.date.today()
                     else:
                         created_at = parse_time(str(datetime.datetime.now().year) + "-" + created_at)
