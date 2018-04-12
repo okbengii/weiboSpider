@@ -9,7 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.mysql import LONGTEXT
 import logging
 
-engine = create_engine('mysql+mysqldb://root:1234@47.93.42.140:3306/weibodata?charset=utf8')
+engine = create_engine('mysql+mysqldb://root:1234@localhost:3306/weibodata?charset=utf8')
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 Base = declarative_base()
